@@ -7,7 +7,7 @@
   "type": "commonjs",
   "main": "dist/app.js",
   "scripts": {
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
     "build": "npm run clean && tsc && cp -r src/views dist/views && sass --no-source-map src/public/styles:dist/public/styles",
     "watch": "tsc --watch",
     "watch:sass": "sass --watch src/public/styles:dist/public/styles",
@@ -23,6 +23,7 @@
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "nodemon": "^3.1.10",
+    "rimraf": "^6.0.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {
