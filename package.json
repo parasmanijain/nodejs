@@ -7,7 +7,8 @@
   "type": "commonjs",
   "main": "dist/app.js",
   "scripts": {
-    "build": "tsc && cp -r src/views dist/views && sass --no-source-map src/public/styles:dist/public/styles",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc && cp -r src/views dist/views && sass --no-source-map src/public/styles:dist/public/styles",
     "watch": "tsc --watch",
     "watch:sass": "sass --watch src/public/styles:dist/public/styles",
     "watch:views": "chokidar 'src/views/**/*' -c 'cp -r src/views dist/views'",
