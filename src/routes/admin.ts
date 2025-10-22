@@ -1,8 +1,10 @@
 import express, { Request, Response } from "express";
-import path from 'path';
+import path from "path";
 import { viewsPath } from "../util/path";
 
 export const router = express.Router();
+
+export let products: Array<Record<string, any>> = [];
 
 // /admin/add-product => GET
 router.get("/add-product", (_, res: Response) => {
@@ -11,6 +13,6 @@ router.get("/add-product", (_, res: Response) => {
 
 // /admin/add-product => POST
 router.post("/add-product", (req: Request, res: Response) => {
-  console.log(req.body); // Make sure body-parser is set up in app.js
+  products.push({ title: req.body.title });
   res.redirect("/");
 });
