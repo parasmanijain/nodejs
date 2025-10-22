@@ -4,5 +4,5 @@ import { products } from "./admin";
 export const router = express.Router();
 
 router.get("/", (_, res: Response) => {
-  res.render("shop", { prods: products, docTitle: "Shop" });
+  res.render("shop", { prods: products, pageTitle: "Shop", path: "/" });
 });
