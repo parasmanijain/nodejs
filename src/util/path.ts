@@ -1,7 +1,5 @@
 import path from 'path';
 
-export const pathName = path.dirname(__filename);
-
 const isProd = process.env.NODE_ENV === "production";
 
 export const viewsPath = isProd
