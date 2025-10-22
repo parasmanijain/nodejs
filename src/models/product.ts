@@ -1,57 +1,54 @@
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import path from 'path';
 
-const getProductsFilePath = (): string => {
-  const dataDir = path.join(process.cwd(), "data");
+// Define the interface for a product
+interface ProductData {
+  title: string;
+}
 
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-  }
+// Construct the path to the JSON file
+const p: string = path.join(
+  path.dirname(require.main?.filename || ''),
+  'data',
+  'products.json'
+);
 
-  return path.join(dataDir, "products.json");
+// Utility function to get products from file
+const getProductsFromFile = (cb: (products: ProductData[]) => void): void => {
+  fs.readFile(p, (err, fileContent) => {
+    if (err || !fileContent.length) {
+      cb([]);
+    } else {
+      try {
+        const data: ProductData[] = JSON.parse(fileContent.toString());
+        cb(data);
+      } catch (e) {
+        cb([]);
+      }
+    }
+  });
 };
 
+// Product class
 export class Product {
   title: string;
 
-  constructor(title: string) {
-    this.title = title;
+  constructor(t: string) {
+    this.title = t;
   }
 
   save(): void {
-    const filePath = getProductsFilePath();
-    fs.readFile(filePath, (err, fileContent) => {
-      let products: Product[] = [];
-      if (!err && fileContent.length > 0) {
-        try {
-          products = JSON.parse(fileContent.toString());
-        } catch (e) {
-          console.error("Failed to parse JSON:", e);
-        }
-      }
-      products.push(this);
-      fs.writeFile(filePath, JSON.stringify(products, null, 2), (err) => {
+    getProductsFromFile((products: ProductData[]) => {
+      products.push({ title: this.title });
+      fs.writeFile(p, JSON.stringify(products, null, 2), err => {
         if (err) {
-          console.error("Failed to write file:", err);
+          console.error('Error saving product:', err);
         }
       });
     });
   }
 
-  static fetchAll(cb: (products: Product[]) => void): void {
-    const filePath = getProductsFilePath();
-    fs.readFile(filePath, (err, fileContent) => {
-      if (err || fileContent.length === 0) {
-        cb([]);
-        return;
-      }
-      try {
-        const products = JSON.parse(fileContent.toString());
-        cb(products);
-      } catch (e) {
-        console.error("Failed to parse JSON:", e);
-        cb([]);
-      }
-    });
+  static fetchAll(cb: (products: ProductData[]) => void): void {
+    getProductsFromFile(cb);
   }
 }
