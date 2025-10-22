@@ -1,7 +1,7 @@
 import express, { Response } from "express";
 import bodyParser from "body-parser";
 import path from "path";
-import expressHbs from "express-handlebars";
+import {engine} from "express-handlebars";
 import { router as adminRoutes } from "./routes/admin";
 import { router as shopRoutes } from "./routes/shop";
 
@@ -9,7 +9,7 @@ const app = express();
 
 app.engine(
   "hbs",
-  expressHbs.engine({
+  engine({
     layoutsDir: path.join(__dirname, "views", "layouts"),
     defaultLayout: "main-layout",
     extname: "hbs",
