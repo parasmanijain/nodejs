@@ -1,8 +1,9 @@
 import express, { Response } from "express";
-import { products } from "./admin";
+import path from "path";
+import { viewsPath } from "../util/path";
 
 export const router = express.Router();
 
 router.get("/", (_, res: Response) => {
-  res.render("shop", { prods: products, docTitle: "Shop" });
+  res.sendFile(path.join(viewsPath, "shop.html"));
 });
