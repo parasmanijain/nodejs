@@ -1,6 +1,4 @@
 import express, { Request, Response } from "express";
-import path from "path";
-import { viewsPath } from "../util/path";
 
 export const router = express.Router();
 

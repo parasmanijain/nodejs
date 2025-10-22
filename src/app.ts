@@ -1,7 +1,7 @@
 import express, { Response } from "express";
 import bodyParser from "body-parser";
 import path from "path";
-import {engine} from "express-handlebars";
+import { engine } from "express-handlebars";
 import { router as adminRoutes } from "./routes/admin";
 import { router as shopRoutes } from "./routes/shop";
 
@@ -26,10 +26,10 @@ app.use("/admin", adminRoutes);
 
 // 404 handler
 app.use((_, res: Response) => {
-  res.status(404).render('404', { pageTitle: 'Page Not Found' });
+  res.status(404).render("404", { pageTitle: "Page Not Found" });
 });
 
 // Start server
 app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
+  console.log("Server is running on http://localhost:3000");
 });
