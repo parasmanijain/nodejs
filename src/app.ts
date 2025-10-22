@@ -1,18 +1,17 @@
 import express, { NextFunction, Request, Response } from "express";
 
 const app = express();
-app.use('/', (req:Request, res:Response, next:NextFunction) => {
-    console.log('This always runs!');
-    next();
+
+app.use('/add-product', (_, res:Response) => {
+  res.send('<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</button></form>');
 });
 
-app.use('/add-product', (req:Request, res:Response) => {
-  console.log('In add product route middleware!');
-  res.send('<h1>The "Add Product" Page</h1>');
+app.post('/product', (req:Request, res:Response) => {
+    console.log(req.body);
+    res.redirect('/');
 });
 
-app.use('/', (req:Request, res:Response) => {
-  console.log('In another middleware!');
+app.use('/', (_, res:Response) => {
   res.send('<h1>Hello from Express!</h1>');
 });
 
