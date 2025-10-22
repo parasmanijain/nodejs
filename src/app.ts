@@ -3,7 +3,6 @@ import bodyParser from "body-parser";
 import path from "path";
 import { router as adminRoutes } from "./routes/admin";
 import { router as shopRoutes } from "./routes/shop";
-import { viewsPath } from "./util/path";
 
 const app = express();
 app.set('view engine', 'pug');
