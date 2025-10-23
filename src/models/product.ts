@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 // Define the interface for a product
 interface ProductData {
@@ -7,11 +7,8 @@ interface ProductData {
 }
 
 // Construct the path to the JSON file
-const p: string = path.join(
-  path.dirname(require.main?.filename || ''),
-  'data',
-  'products.json'
-);
+const dataDir = path.join(process.cwd(), "data");
+const p: string = path.join(dataDir, "products.json");
 
 // Utility function to get products from file
 const getProductsFromFile = (cb: (products: ProductData[]) => void): void => {
@@ -40,10 +37,20 @@ export class Product {
   save(): void {
     getProductsFromFile((products: ProductData[]) => {
       products.push({ title: this.title });
-      fs.writeFile(p, JSON.stringify(products, null, 2), err => {
-        if (err) {
-          console.error('Error saving product:', err);
+
+      //  Ensure the "data" folder exists
+      fs.mkdir(dataDir, { recursive: true }, (dirErr) => {
+        if (dirErr) {
+          console.error("Error creating data directory:", dirErr);
+          return;
         }
+
+        // Now safely write the file
+        fs.writeFile(p, JSON.stringify(products, null, 2), (err) => {
+          if (err) {
+            console.error("Error saving product:", err);
+          }
+        });
       });
     });
   }
