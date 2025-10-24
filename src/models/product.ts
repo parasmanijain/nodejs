@@ -4,6 +4,9 @@ import path from "path";
 // Define the interface for a product
 interface ProductData {
   title: string;
+  imageUrl: string;
+  description: string;
+  price: string;
 }
 
 // Construct the path to the JSON file
@@ -29,14 +32,24 @@ const getProductsFromFile = (cb: (products: ProductData[]) => void): void => {
 // Product class
 export class Product {
   title: string;
-
-  constructor(t: string) {
-    this.title = t;
+  imageUrl: string;
+  description: string;
+  price: string;
+  constructor(
+    title: string,
+    imageUrl: string,
+    description: string,
+    price: string
+  ) {
+    this.title = title;
+    this.imageUrl = imageUrl;
+    this.description = description;
+    this.price = price;
   }
 
   save(): void {
     getProductsFromFile((products: ProductData[]) => {
-      products.push({ title: this.title });
+      products.push(this);
 
       //  Ensure the "data" folder exists
       fs.mkdir(dataDir, { recursive: true }, (dirErr) => {
